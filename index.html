@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Radio</title>
+
+        <link rel="stylesheet" href="/controlbar.css">
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <div class="container">
+            &nbsp;
+            <h1>AkilesRadio</h1>
+            <div class="dash-video-player code">
+                <!-- HTML structure needed for the ControlBar -->
+                <div class="videoContainer" id="videoContainer">
+                    <audio preload="auto" autoplay="true" > </audio>
+                    <div id="videoController" class="video-controller unselectable" style="min-height: 38px;">
+                        <div id="playPauseBtn" class="btn-play-pause" title="Play/Pause">
+                            <span id="iconPlayPause" class="icon-play"></span>
+                        </div>
+                        <span id="videoTime" class="time-display">00:00:00</span>
+                        <div id="fullscreenBtn" class="btn-fullscreen control-icon-layout" title="Fullscreen" style="display: none">
+                            <span class="icon-fullscreen-enter"></span>
+                        </div>
+                        <div id="bitrateListBtn" class="control-icon-layout" title="Bitrate List">
+                            <span class="icon-bitrate"></span>
+                        </div>
+                        <input type="range" id="volumebar" class="volumebar" value="1" min="0" max="1" step=".01"/>
+                        <div id="muteBtn" class="btn-mute control-icon-layout" title="Mute">
+                            <span id="iconMute" class="icon-mute-off"></span>
+                        </div>
+                        <div id="trackSwitchBtn" class="control-icon-layout" title="A/V Tracks">
+                            <span class="icon-tracks"></span>
+                        </div>
+                        <div id="captionBtn" class="btn-caption control-icon-layout" title="Closed Caption">
+                            <span class="icon-caption"></span>
+                        </div>
+                        <span id="videoDuration" class="duration-display">00:00:00</span>
+                        <div class="seekContainer">
+                            <div id="seekbar" class="seekbar seekbar-complete">
+                                <div id="seekbar-buffer" class="seekbar seekbar-buffer"></div>
+                                <div id="seekbar-play" class="seekbar seekbar-play"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="app">
+
+                <div v-if="playing.current">
+                    <h2>Now playing</h2>
+                    <div class="track">
+                        <div class="track-image">
+                            <img :src="playing.current['mpris:artUrl']">
+                        </div>
+                        <div class="track-info">
+                            <div class="track-title"><a :href="playing.current['xesam:url']">{{ playing.current['xesam:title'] }}</a></div>
+                            <div class="track-artist">{{ playing.current['xesam:artist'][0] }} - {{ playing.current['xesam:album'] }}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2>Previously played</h2>
+                <div class="track" v-for="track in playing.history">
+                    <div class="track-image">
+                        <img :src="track['mpris:artUrl']">
+                    </div>
+                    <div class="track-info">
+                        <div class="track-title"><a :href="track['xesam:url']">{{ track['xesam:title'] }}</a></div>
+                        <div class="track-artist">{{ track['xesam:artist'][0] }} - {{ track['xesam:album'] }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/vue.js"></script>
+        <script src="/dash.all.debug.js"></script>
+        <script src="/ControlBar.js"></script>
+        <script src="/script.js"></script>
+    </body>
+</html>
